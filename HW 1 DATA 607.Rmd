@@ -1,0 +1,58 @@
+---
+title: 'DATA 607 HW #1 Mushrooms'
+author: "Maryluz Cruz"
+date: "8/31/2019"
+output: html_document
+---
+
+## First read in the Data by adding the Data into my GitHub repository, and finding the column names in the data dictionary.
+
+```{r}
+mush1 <-   read.csv("https://raw.githubusercontent.com/Luz917/mushroomdataset/master/agaricus-lepiota.data.txt", stringsAsFactors = FALSE)
+colnames(mush1) <- c("Attribute-information","cap-shape","cap-surface", "cap-color","bruises","odor","gill-attachment", "gill-spacing",     "gill-size","gill-color","stalk-shape","stalk-root","stalk-surface-above-ring","stalk-surface-below-ring","stalk-color-above-ring",  "stalk-color-below-ring", "veil-type", "veil-color" , "ring-number", "ring-type", "spore-print-color", "population", "habitat")
+str(mush1)
+```
+
+```{r}
+dim(mush1)
+```
+
+
+## Subsetting the Mushroom Data
+                                  
+```{r}
+mush2 <- mush1[c(1:100),c(1,5,9,11,17)]
+mush2
+```
+
+## Change the Column Names of the new data frame
+                                  
+```{r}
+colnames(mush2)<- c("PoisonousOrEdible","DoesItBruise","ShapOfGill", "ShapeOfStalk", "TypeOfVeil")
+mush2
+```
+
+## Changing the values in the rows
+
+```{r}
+require(plyr)
+```
+
+
+```{r}
+mush2$PoisonousOrEdible <-revalue(mush2$PoisonousOrEdible,c("e"="edible" , "p"="poisonous"))
+mush2$DoesItBruise <-revalue(mush2$DoesItBruise,c("t"="true", "f"="false"))
+mush2$ShapOfGill <-revalue(mush2$ShapOfGill,c("b"="broad", "n"= "narrow"))
+mush2$ShapeOfStalk <-revalue(mush2$ShapeOfStalk,c("e"="enlarging", "t"= "tapering")) 
+mush2$TypeOfVeil <-revalue(mush2$TypeOfVeil,c("p" = "partial" , "u" = "universal"))
+mush2
+```
+
+Original found in StackOverflow for changing values in the rows 
+
+library(plyr)
+junk$nm <- revalue(junk$nm, c("B"="b"))  
+
+I figured if this changes one value in the row for that column, that you can change multiple rowa within the column by using the comma between each value you want to change.
+
+                                  
